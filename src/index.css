@@ -2,3 +2,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .tr-300 {
+    @apply transition-all duration-300 ease-out;
+  }
+  .regular-input {
+    @apply w-full py-3 pr-4 rounded-xl text-secondary-900 border
+        border-gray-300  focus:border-primary-500 focus:outline-none focus:bg-white 
+           focus:shadow-md focus:shadow-secondary-500;
+  }
+  .largeBtn--primary {
+    @apply pr-2 px-4 py-2 bg-primary-900 text-white rounded-xl w-full hover:bg-primary-800;
+  }
+}
