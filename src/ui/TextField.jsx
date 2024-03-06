@@ -1,7 +1,7 @@
-function TextField({ onChange,placeholder, value,label, name }) {
+function TextField({ onChange,placeholder, value,label, name,mt,spaceY }) {
   return (
-    <div className="space-y-8 mt-20">
-      <label className="pr-2 text-2xl" htmlFor={name}>
+    <div className={`${mt} ${spaceY}`}>
+      <label className="pr-2 text-xl" htmlFor={name}>
         {label}
       </label>
       <input

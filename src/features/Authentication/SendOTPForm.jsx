@@ -22,6 +22,8 @@ function SendOTPForm({
             label={"شماره موبایل"}
             name={"phoneNumber"}
             onChange={(e) => setPhoneNumber(e.target.value)}
+            mt={`mt-20`}
+            spaceY={`space-y-8`}
           />
         </div>
         {isSendingOtp ? (

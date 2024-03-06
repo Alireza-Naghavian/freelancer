@@ -57,5 +57,8 @@ export default {
       addVariant(`child`, `&>*`);
       addVariant(`child-hover`, `&>*:hover`);
     },
+    require("@tailwindcss/forms")({
+      strategy: "class", // only generate classes
+    }),
   ],
 };

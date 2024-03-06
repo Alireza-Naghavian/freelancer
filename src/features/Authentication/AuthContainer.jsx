@@ -4,19 +4,26 @@ import CheckOTPForm from "./CheckOTPForm";
 import { useMutation } from "@tanstack/react-query";
 import { getOtp } from "../../services/authServices";
 import toast from "react-hot-toast";
+import useTimer from "./hooks/useTimer";
+const RESEND_TIME = 12;
 function AuthContainer() {
   const [step, setStep] = useState(1);
   const [phoneNumber, setPhoneNumber] = useState("");
-  const {  mutateAsync, isPending:isSendingOtp } = useMutation({
+  const { time } = useTimer(RESEND_TIME);
+  const { mutateAsync, isPending: isSendingOtp } = useMutation({
     mutationFn: getOtp,
   });
+
   const submitPhoneNumber = async (e) => {
     e.preventDefault();
+    if(time==0){
+      setStep(2)
+    }
     try {
       const data = await mutateAsync({ phoneNumber: phoneNumber });
       console.log(data);
       toast.success(data.message);
-      setStep(2);
+      setStep(2)
     } catch (error) {
       toast.error(error?.response?.data?.message);
       setStep(1);
@@ -27,7 +34,7 @@ function AuthContainer() {
       case 1:
         return (
           <SendOTPForm
-          isSendingOtp={isSendingOtp}
+            isSendingOtp={isSendingOtp}
             phoneNumber={phoneNumber}
             submitPhoneNumber={submitPhoneNumber}
             setPhoneNumber={setPhoneNumber}

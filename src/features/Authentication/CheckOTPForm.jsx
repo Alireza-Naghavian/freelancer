@@ -7,12 +7,20 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { HiArrowRight } from "react-icons/hi";
 import SmallBtn from "../../ui/SmallBtn";
-const RESEND_TIME = 120
-function CheckOTPForm({ phoneNumber, setStep,resendOtpHandler }) {
+import useTimer from "./hooks/useTimer";
+import { CiEdit } from "react-icons/ci";
+import Loader from "../../utils/Loader";
+const RESEND_TIME = 120;
+function CheckOTPForm({ phoneNumber, setStep, resendOtpHandler }) {
   const navigate = useNavigate();
   const [otp, setOtp] = useState("");
-  const [time, setTime] = useState(RESEND_TIME);
-  const { data, isPending, error, mutateAsync } = useMutation({
+  const { time } = useTimer(RESEND_TIME);
+
+  const {
+    data,
+    isPending: isCheckedOtp,
+    mutateAsync,
+  } = useMutation({
     mutationFn: checkOtp,
   });
   const checkOtpSubmit = async (e) => {
@@ -20,43 +28,51 @@ function CheckOTPForm({ phoneNumber, setStep,resendOtpHandler }) {
     try {
       const data = await mutateAsync({ phoneNumber, otp });
       console.log(data.user);
-      if (data.message.success === false) throw new Error(data.message.message);
-      if (data.user.isActive) {
-        if (data.user.role === "OWNER") navigate("/owner");
-        if (data.user.role === "FREELANCER") navigate("freelancer");
-      } else {
-        navigate("/complete-profile", { replace: true });
+      console.log(data);
+      if (data.message.success === false) {
+        throw new Error(JSON.stringify(data.message.message));
       }
+      if (data.user.isActive) {
+        if (data.user.role === "OWNER") return navigate("/owner");
+        if (data.user.role === "FREELANCER") return navigate("/freelancer");
+      }
+
+      // if (data.user.status !== 2) return navigate("/");
+
+      if (!data.user.isActive)
+        return navigate("/complete-profile", { replace: true });
+
       return toast.success([data.message.message]);
     } catch (error) {
-      toast.error(error.message);
       console.log(error);
+      if (!error.response) {
+        toast.error(JSON.parse(error.message));
+      } else {
+        toast.error(error.response.data.message);
+      }
     }
   };
-  useEffect(() => {
-
-    const timer =
-      time > 0 &&
-      setInterval(() => {
-        setTime((t) => t - 1);
-      }, 1000);
-    return () => {
-      if (time) clearInterval(timer);
-    };
-  }, [time]);
-
   return (
     <div className=" flex flex-col ">
-      <div className=" rounded-xl w-fit h-fit" onClick={() => setStep(1)}>
-        <SmallBtn
-          mt={`mt-12`}
-          mrn={"-mr-10"}
-          color={`bg-primary-900`}
-          hover={`bg-primary-700 `}
+      <div className="flex justify-between">
+        <div className=" rounded-xl w-fit h-fit" onClick={() => setStep(1)}>
+          <SmallBtn
+            mt={`mt-12`}
+            mrn={"-mr-10"}
+            color={`bg-primary-900`}
+            hover={`bg-primary-700 `}
+          >
+            <HiArrowRight size={22} className="icon" /> <span>بازگشت</span>
+          </SmallBtn>
+        </div>
+        <div
+          className=" h-fit w-fit mt-12 -ml-10 cursor-pointer"
+          onClick={() => setStep(1)}
         >
-          <HiArrowRight size={22} className="icon" /> <span>بازگشت</span>
-        </SmallBtn>
+          <CiEdit size={28} color="rgb(  92, 124, 255)" />
+        </div>
       </div>
+
       <div className="w-full flex justify-center items-center mt-4  ">
         <form
           onSubmit={checkOtpSubmit}
@@ -82,27 +98,32 @@ function CheckOTPForm({ phoneNumber, setStep,resendOtpHandler }) {
               color: "#333",
             }}
           />
-          <LargeBtn type={"submit"}>ورود/ثبت نام</LargeBtn>
+          {isCheckedOtp ? (
+            <Loader />
+          ) : (
+            <LargeBtn type={"submit"}>ورود/ثبت نام</LargeBtn>
+          )}
         </form>
       </div>
       <div className=" flex justify-end items-start  w-full">
-        {time ? (
+        {time > 0 ? (
           <p className="mt-12 -ml-12 text-primary-700 ">
-            {time} ثانیه تا ارسال مجدد{" "}
+            {time} ثانیه تا ارسال مجدد
           </p>
         ) : (
-            <div className=" min-h-min mt-12 rounded-xl -ml-12" onClick={resendOtpHandler}>
+          <div
+            className=" min-h-min mt-12 rounded-xl -ml-12"
+            onClick={resendOtpHandler}
+          >
             <SmallBtn
-            
-            mt={`mt-0`}
-            mrn={`-ml-0`}
-            color={`bg-secondary-600`}
-            hover={`bg-secondary-600`}
+              mt={`mt-0`}
+              mrn={`-ml-0`}
+              color={`bg-secondary-600`}
+              hover={`bg-secondary-600`}
             >
               ارسال مجدد کد
             </SmallBtn>
-              </div>
-         
+          </div>
         )}
       </div>
     </div>
