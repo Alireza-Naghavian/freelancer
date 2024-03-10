@@ -3,7 +3,6 @@ import useOwnerProjects from "../features/projects/useOwnerProjects";
 
 function Header() {
   const {data}= useUser();
-console.log(data);
   return (
     <div className="col-span-8 row-span-2 bg-red-200">header </div>
   )
