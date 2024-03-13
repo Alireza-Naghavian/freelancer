@@ -6,7 +6,6 @@ import useOwnerProjects from "./useOwnerProjects";
 
 function ProjectsTable() {
   const { isLoading, projects } = useOwnerProjects();
-  console.log(projects);
   if (isLoading) return <Loader />;
 
   if (!projects.length) return <Empty resourceName={"پروژه ای"} />;

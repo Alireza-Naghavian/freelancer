@@ -27,7 +27,6 @@ app.interceptors.response.use(
         const { data } = await axios.get(`${Base_url}/use/refresh-token`, {
           withCredentials: true,
         });
-        console.log(data);
         if (data) return app(original_config);
 
       } catch (error) {

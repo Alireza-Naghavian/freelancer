@@ -21,7 +21,6 @@ function AuthContainer() {
     }
     try {
       const { message } = await mutateAsync(data);
-      console.log(message);
       toast.success(message);
       setStep(2);
     } catch (error) {

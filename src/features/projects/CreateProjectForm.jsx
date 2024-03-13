@@ -16,7 +16,6 @@ function CreateProjectForm({
   submitLabel,
 }) {
   const { _id: editId } = setEditProject;
-  console.log(editId);
   const isEditProject = Boolean(editId);
   const {
     title,
