@@ -5,7 +5,6 @@ import ProposalTable from "./ProposalTable";
 
 function Project() {
   const { project, isProjectLoading } = useSingleProjectData();
-  console.log(project);
   if (isProjectLoading) return <Loader />;
   return (
     <div className="container px-8 py-4">

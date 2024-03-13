@@ -6,7 +6,6 @@ import useSingleProjectData from "./hooks/useSignelProjectData";
 
 function ProposalTable({  }) {
    const {project}=useSingleProjectData()
-console.log(project.proposals);
   if (!project?.proposals.length) return <Empty resourceName="درخواستی" />;
   return (
     <Table>

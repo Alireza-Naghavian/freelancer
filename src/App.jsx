@@ -12,6 +12,7 @@ import AppLayOut from "./pages/AppLayOut";
 import Project from "./ui/Projects";
 import SingleProject from "./ui/SingleProject";
 import OwnerDashBoard from "./ui/OwnerDashBoard";
+import OwnerLayout from "./features/owner/OwnerLayout";
 const queryClient = new QueryClient();
 function App() {
   return (
@@ -22,7 +23,7 @@ function App() {
         <Route path="/auth" element={<Auth />} />
         <Route path="/complete-profile" element={<CompleteProfile />} />
         <Route path="*" element={<NotFound />} />
-        <Route path="/owner" element={<AppLayOut />}>
+        <Route path="/owner" element={<OwnerLayout />}>
           <Route index element={<Navigate to="dashboard" replace></Navigate>} />
           <Route path="dashboard" element={<OwnerDashBoard />} />
           <Route path="projects" element={<Project />} />

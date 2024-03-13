@@ -27,8 +27,6 @@ function CheckOTPForm({ phoneNumber, setStep, resendOtpHandler }) {
     e.preventDefault();
     try {
       const data = await mutateAsync({ phoneNumber, otp });
-      console.log(data.user);
-      console.log(data);
       if (data.message.success === false) {
         throw new Error(JSON.stringify(data.message.message));
       }
