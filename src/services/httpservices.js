@@ -24,7 +24,7 @@ app.interceptors.response.use(
     if (err.response.status === 401 && !original_config.retry ) { // we put retry property to send one req to backend and avoid from infinite loop
       original_config.retry = true; // set true to cut infinite loop
       try {
-        const { data } = await axios.get(`${Base_url}/use/refresh-token`, {
+        const { data } = await axios.get(`${Base_url}/user/refresh-token`, {
           withCredentials: true,
         });
         if (data) return app(original_config);
