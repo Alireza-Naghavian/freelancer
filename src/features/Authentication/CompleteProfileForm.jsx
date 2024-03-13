@@ -6,20 +6,19 @@ import { completeProfile } from "../../services/authServices";
 import toast from "react-hot-toast";
 import Loader from "../../utils/Loader";
 import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import ValidTextField from "../../ui/ValidTextField";
 
 function CompleteProfileForm() {
-  const navigate = useNavigate()
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [role, setRole] = useState("OWNER");
+  const { handleSubmit, register, watch } = useForm();
+  const navigate = useNavigate();
   const { isPending, data, error, mutateAsync } = useMutation({
     mutationFn: completeProfile,
   });
-  const CompleteProfileHandler = async (e) => {
-    e.preventDefault();
+
+  const CompleteProfileHandler = async ({ name, email, role }) => {
     try {
       const data = await mutateAsync({ name, email, role });
-      console.log(data);
       if (data.user.role === "OWNER") {
         navigate("/owner");
 
@@ -31,8 +30,6 @@ function CompleteProfileForm() {
         toast.success(data.message);
         return;
       }
-
-      console.log(data);
     } catch (error) {
       toast.error(error?.response?.data?.message);
     }
@@ -40,22 +37,20 @@ function CompleteProfileForm() {
   return (
     <div className="w-full px-12">
       <p className="pt-6 text-sm">لطفا پروفایل کاربری خود را تکمیل کنید.</p>
-      <form className="w-full" onSubmit={CompleteProfileHandler}>
-        <TextField
+      <form className="w-full" onSubmit={handleSubmit(CompleteProfileHandler)}>
+        <ValidTextField
           mt={`mt-8`}
           spaceY={`space-y-4`}
-          onChange={(e) => setEmail(e.target.value)}
+          register={register}
           placeholder={`لطفا ایمیل معتبر وارد کنید...`}
-          value={email}
           name={"email"}
           label={`ایمیل`}
         />
-        <TextField
+        <ValidTextField
           mt={`mt-10`}
           spaceY={`space-y-4`}
-          onChange={(e) => setName(e.target.value)}
+          register={register}
           placeholder={`نام و نام خانوادگی...`}
-          value={name}
           name={"name"}
           label={`نام و نام خانوادگی`}
         />
@@ -67,8 +62,8 @@ function CompleteProfileForm() {
               name="role"
               id="owner"
               value="OWNER"
-              onChange={(e) => setRole(e.target.value)}
-              checked={role === "OWNER"}
+              {...register("role")}
+              checked={watch("role") === "OWNER"}
             />
             <label htmlFor="owner">کارفرما</label>
           </div>
@@ -78,9 +73,9 @@ function CompleteProfileForm() {
               type="radio"
               name="role"
               id="freelancer"
+              {...register("role")}
               value="FREELANCER"
-              checked={role === "FREELANCER"}
-              onChange={(e) => setRole(e.target.value)}
+              checked={watch("role") === "FREELANCER"}
             />
             <label htmlFor="freelancer">فریلنسر</label>
           </div>

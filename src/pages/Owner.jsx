@@ -1,7 +1,9 @@
 
 function Owner() {
   return (
-    <div>Owner</div>
+
+    <div className="">Owner page</div>
+        
   )
 }
 

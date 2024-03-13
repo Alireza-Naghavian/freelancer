@@ -36,9 +36,6 @@ function CheckOTPForm({ phoneNumber, setStep, resendOtpHandler }) {
         if (data.user.role === "OWNER") return navigate("/owner");
         if (data.user.role === "FREELANCER") return navigate("/freelancer");
       }
-
-      // if (data.user.status !== 2) return navigate("/");
-
       if (!data.user.isActive)
         return navigate("/complete-profile", { replace: true });
 

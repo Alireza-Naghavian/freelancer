@@ -15,4 +15,73 @@
   .largeBtn--primary {
     @apply pr-2 px-4 py-2 bg-primary-900 text-white rounded-xl w-full hover:bg-primary-800;
   }
+  .deActive--nav-link{
+    @apply flex items-center gap-x-2 hover:bg-primary-200/75 hover:text-primary-900 rounded-lg px-2 py-1.5  tr-300
+  }
+  .badge {
+    @apply inline-block whitespace-nowrap rounded-xl px-2 py-0.5;
+  }
+  .badge--primary {
+    @apply bg-primary-900 text-white;
+  }
+  .badge--secondary {
+    @apply bg-secondary-200 text-secondary-600;
+  }
+  .badge--success {
+    @apply bg-green-400 text-white;
+  }
+  .badge--danger {
+    @apply bg-red-500 text-white;
+  }
 }
+.rti--container {
+@apply bg-secondary-200 mt-4;
+  --rti-radius: 0.375rem;
+  --rti-s: 0.5rem;
+  --rti-tag: #edf2f7;
+  --rti-tag-remove: #e53e3e;
+  border: none;
+
+}
+.rti--container .rti--input {
+  @apply bg-secondary-200 w-1/4 text-sm;
+  color: rgb(var(--color-secondary-800));
+  padding: 0.3rem .5rem;
+  border-radius: 0.5rem;
+}
+
+.rti--tag {
+  @apply bg-secondary-500 text-secondary-900 text-sm ;
+}
+/* TABLE */
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+}
+
+table .title-row {
+  background-color: rgb(var(--color-secondary-100));
+}
+
+table td,
+table th {
+  border-bottom: 1px solid rgb(var(--color-secondary-200));
+  text-align: right;
+  white-space: nowrap;
+}
+
+table th {
+  padding: 0.6rem 1rem;
+  color: rgb(var(--color-secondary-600));
+  font-size: 0.9rem;
+}
+
+table td {
+  font-size: 0.85rem;
+  padding: 1rem 1rem;
+  color: rgb(var(--color-secondary-600));
+}
+
+/*  react tag input */
