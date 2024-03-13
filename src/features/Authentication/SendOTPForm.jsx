@@ -6,29 +6,20 @@ import { getOtp } from "../../services/authServices";
 import toast from "react-hot-toast";
 import Loader from "../../utils/Loader";
 import { useForm } from "react-hook-form";
+import ValidTextField from "../../ui/ValidTextField";
 
-function SendOTPForm({
-  phoneNumber,
-  setPhoneNumber,
-  submitPhoneNumber,
-  isSendingOtp,
-}) 
-
-{
-  const {register}= useForm()
+function SendOTPForm({ register, submitPhoneNumber, isSendingOtp }) {
   return (
     <div>
       <form className="space-y-4" onSubmit={submitPhoneNumber}>
         <div className="flex flex-col  space-y-2 pt-10 mb-2">
-          <TextField
+          <ValidTextField
             placeholder={"لطفا شماره موبایل را وارد کنید..."}
-            value={phoneNumber}
+            register={register}
             label={"شماره موبایل"}
             name={"phoneNumber"}
-            onChange={(e) => setPhoneNumber(e.target.value)}
             mt={`mt-20`}
             spaceY={`space-y-8`}
-            register={register}
           />
         </div>
         {isSendingOtp ? (

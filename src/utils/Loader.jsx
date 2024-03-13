@@ -1,7 +1,7 @@
 import React from "react";
 import { ThreeDots } from "react-loader-spinner";
 
-function Loader({ width = "60", height = "40" }) {
+function Loader({ width = "60", height = "40" ,mt = "52px" }) {
   return (
     <ThreeDots
       width={width}
@@ -11,7 +11,7 @@ function Loader({ width = "60", height = "40" }) {
       wrapperStyle={{
         display:"flex",
         justifyContent:"center",
-        marginTop:"52px"
+        marginTop:mt
     }}
     />
   );

@@ -10,14 +10,13 @@ function Projects() {
 
   return (
     <div className="row-span-10 ">
-      <div
-        className="flex justify-end items-baseline ml-10 mt-12"
-        onClick={() => setOpenNewProject(true)}
-      >
-        <SmallBtn color={`bg-primary-900 text-white`}>
-          <FaPlus />
-          افزودن پروژه جدید
-        </SmallBtn>
+      <div className=" flex justify-end  items-baseline ml-10 mt-12 ">
+        <div onClick={() => setOpenNewProject(true)}>
+          <SmallBtn color={`bg-primary-900 text-white`}>
+            <FaPlus />
+            افزودن پروژه جدید
+          </SmallBtn>
+        </div>
       </div>
       {openNewProject && (
         <Modal
@@ -25,9 +24,7 @@ function Projects() {
           close={() => setOpenNewProject((is) => !is)}
           open={() => setOpenNewProject(true)}
         >
-          <CreateProjectForm/>
-
-
+          <CreateProjectForm submitLabel={"افزودن"} setOpenNewProject={setOpenNewProject} />
         </Modal>
       )}
       <ProjectsTable />

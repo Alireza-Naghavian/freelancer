@@ -6,9 +6,10 @@ import useOwnerProjects from "./useOwnerProjects";
 
 function ProjectsTable() {
   const { isLoading, projects } = useOwnerProjects();
+  console.log(projects);
   if (isLoading) return <Loader />;
 
-  if (!projects.length) return <Empty />;
+  if (!projects.length) return <Empty resourceName={"پروژه ای"} />;
   return (
     <Table>
       <Table.Header>
@@ -21,10 +22,11 @@ function ProjectsTable() {
         <th>فریلنسر</th>
         <th>وضعیت</th>
         <th>عملیات</th>
+        <th>درخواست ها</th>
       </Table.Header>
       <Table.Body>
         { projects.map((project, index) => {
-      return  <ProjectRow key={project._id} project={project} index={index} />;
+      return  <ProjectRow key={project?._id} project={project} index={index} />;
         })}
       </Table.Body>
     </Table>

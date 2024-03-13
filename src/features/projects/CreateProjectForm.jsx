@@ -2,14 +2,79 @@ import LargeBtn from "../../ui/LargeBtn";
 import TextField from "../../ui/TextField";
 import { useForm } from "react-hook-form";
 import ValidTextField from "../../ui/ValidTextField";
-function CreateProjectForm() {
+import RHFSelect from "../../pages/RHFSelect";
+import { TagsInput } from "react-tag-input-component";
+import { useState } from "react";
+import DatePickerField from "../../ui/DatePickerField";
+import useCategories from "../../hooks/useCategories";
+import useCreateProject from "./hooks/useCreateProject";
+import Loader from "../../utils/Loader";
+import useEditProject from "./hooks/useEditProject";
+function CreateProjectForm({
+  setOpenNewProject,
+  setEditProject = {},
+  submitLabel,
+}) {
+  const { _id: editId } = setEditProject;
+  console.log(editId);
+  const isEditProject = Boolean(editId);
+  const {
+    title,
+    description,
+    budget,
+    category,
+    deadline,
+    tags: prevTags,
+  } = setEditProject;
+  let editValues = {};
+  if (isEditProject) {
+    editValues = {
+      title,
+      description,
+      budget,
+      category: category?._id,
+      
+    };
+  }
   const {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm();
+    reset
+  } = useForm({ defaultValues: editValues });
+
+  
+  const [tags, setTags] = useState(prevTags || []);
+  const [date, setDate] = useState(new Date(deadline || ""));
+  const { categories, isPending, transformedCategories } = useCategories();
+  const { isLoading, createProject } = useCreateProject();
+
+  const { isLoading: isEditLoading, editProject } = useEditProject();
   const submitHandler = (data) => {
-    console.log(data);
+    const newProject = {
+      ...data,
+      deadline: new Date(date).toISOString(),
+      tags,
+    };
+
+    if (isEditProject) {
+      editProject(
+        { id: editId, newProject }, {
+          onSuccess: () => {
+            setOpenNewProject(false)
+            reset();
+          },
+        }
+      );
+    
+    } else {
+      createProject(newProject, {
+        onSuccess: () => {
+          setOpenNewProject(false);
+          reset();
+        },
+      });
+    }
   };
   return (
     <form
@@ -42,7 +107,7 @@ function CreateProjectForm() {
         validationSchema={{
           required: "پرکردن این فیلد الزامی است",
           minLength: {
-            value: 15,
+            value: 10,
             message: "تعداد کاراکتر باید بیشتر از ۱۵ عدد باشد",
           },
         }}
@@ -59,8 +124,25 @@ function CreateProjectForm() {
           required: "پرکردن این فیلد الزامی است",
         }}
       ></ValidTextField>
-
-      <LargeBtn type={"submit"}>افزودن</LargeBtn>
+      <RHFSelect
+        label={"دسته بندی"}
+        register={register}
+        name="category"
+        options={categories || "programming"}
+        required
+      />
+      <div className="flex flex-col items-start">
+        <label htmlFor="tags" className="">
+          تگ ها
+        </label>
+        <TagsInput value={tags} onChange={setTags} name="tags" />
+      </div>
+      <DatePickerField date={date} setDate={setDate} label={"ددلاین"} />
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <LargeBtn type={"submit"}>{submitLabel}</LargeBtn>
+      )}
     </form>
   );
 }

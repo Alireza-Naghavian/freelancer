@@ -26,7 +26,7 @@ function App() {
           <Route index element={<Navigate to="dashboard" replace></Navigate>} />
           <Route path="dashboard" element={<OwnerDashBoard />} />
           <Route path="projects" element={<Project />} />
-          <Route path="projects/id:" element={<SingleProject />} />
+          <Route path="projects/:id" element={<SingleProject />} />
           <Route path="freelancer" element={<FreeLancer />} />
         </Route>
         <Route path="/" element={<Home />} />

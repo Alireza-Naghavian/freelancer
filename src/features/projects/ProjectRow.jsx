@@ -3,13 +3,16 @@ import Table from "../../ui/Table";
 import { toPersianNumbersWithComma } from "../../utils/toPersianNumbers";
 import truncateText from "../../utils/truncateText";
 import { TbPencilMinus } from "react-icons/tb";
-import { HiOutlineTrash } from "react-icons/hi";
+import { HiEye, HiOutlineTrash } from "react-icons/hi";
 import { useRemoveProject } from "./hooks/useRemoveProject";
 import dataConvertor from "../../utils/DateConvertor";
 import Modal from "../../ui/Modal";
 import SmallBtn from "../../ui/SmallBtn";
 import toast from "react-hot-toast";
-
+import CreateProjectForm from "./CreateProjectForm";
+import ChangeStatus from "../../ui/ChangeStatus";
+import ChangeStatusForm from "./ChangeStatusForm";
+import {Link} from "react-router-dom"
 function ProjectRow({ project, index }) {
   const { removeProject, isDelLoading } = useRemoveProject();
   const [OpenEditModal, setOpenEditModal] = useState(false);
@@ -19,9 +22,7 @@ function ProjectRow({ project, index }) {
     if (status === "OPEN") {
       toast.error("پروژه قابل حذف نیست");
     } else {
-      removeProject(id, {
-        onSuccess: () => setDeleteModal(false),
-      });
+      removeProject(id, { onSuccess: () => setDeleteModal(false) });
     }
   };
   return (
@@ -42,11 +43,7 @@ function ProjectRow({ project, index }) {
       </td>
       <td>{project?.freelancer?.name || "-"}</td>
       <td>
-        {project.status === "OPEN" ? (
-          <span className="badge badge--success">باز</span>
-        ) : (
-          <span className="badge badge--danger">بسته</span>
-        )}
+        <ChangeStatusForm project={project}/>
       </td>
       <td>
         <div className="flex items-center gap-x-2">
@@ -55,12 +52,15 @@ function ProjectRow({ project, index }) {
           </button>
           {OpenEditModal && (
             <Modal
-          
               open={() => setOpenEditModal(true)}
-              close={() =>setOpenEditModal(false)}
-              title={"متن تستی"}
+              close={() => setOpenEditModal(false)}
+              title={`ویرایش پروژه (${project?.title})`}
             >
-              fsdf
+              <CreateProjectForm
+              setEditProject={project}
+                submitLabel={"ویرایش"}
+                setOpenNewProject={setOpenEditModal}
+              />
             </Modal>
           )}
           <button onClick={() => setDeleteModal(true)}>
@@ -68,10 +68,9 @@ function ProjectRow({ project, index }) {
           </button>
           {deleteModal && (
             <Modal
-              
               title={`حذف پروژه ${project?.title}`}
               open={() => setDeleteModal(true)}
-              close={()=>setDeleteModal(false)}
+              close={() => setDeleteModal(false)}
             >
               <div>
                 <span className="font-VazirBold">
@@ -88,7 +87,7 @@ function ProjectRow({ project, index }) {
                 </SmallBtn>
                 <button
                   onClick={() => deleteHandler(project._id, project.status)}
-                  disable={isDelLoading?isDelLoading:undefined}
+                  disable={isDelLoading ? isDelLoading : undefined}
                   className={`border-red-500 border-2  px-4 py-2 rounded-xl text-red-600`}
                 >
                   تایید
@@ -97,6 +96,12 @@ function ProjectRow({ project, index }) {
             </Modal>
           )}
         </div>
+      </td>
+      <td>
+        <Link to={project._id}>
+        
+        <HiEye className="text-secondary-800 flex justify-center text-lg"/>
+        </Link>
       </td>
     </Table.Row>
   );
