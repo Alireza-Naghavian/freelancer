@@ -10,7 +10,6 @@ import Modal from "../../ui/Modal";
 import SmallBtn from "../../ui/SmallBtn";
 import toast from "react-hot-toast";
 import CreateProjectForm from "./CreateProjectForm";
-import ChangeStatus from "../../ui/ChangeStatus";
 import ChangeStatusForm from "./ChangeStatusForm";
 import {Link} from "react-router-dom"
 function ProjectRow({ project, index }) {

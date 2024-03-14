@@ -6,13 +6,15 @@ import { Toaster } from "react-hot-toast";
 import CompleteProfile from "./pages/CompleteProfile";
 import NotFound from "./pages/NotFound";
 import Home from "./pages/Home";
-import Owner from "./pages/Owner";
 import FreeLancer from "./pages/FreeLancer";
-import AppLayOut from "./pages/AppLayOut";
 import Project from "./ui/Projects";
 import SingleProject from "./ui/SingleProject";
 import OwnerDashBoard from "./ui/OwnerDashBoard";
 import OwnerLayout from "./features/owner/OwnerLayout";
+import FreelancerDashboard from "./pages/FreelancerDashboard";
+import Proposals from "./pages/Proposals";
+import SubmittedProjects from "./pages/SubmittedProjects";
+import FreelancerLayout from "./features/freelancer/FreelancerLayout";
 const queryClient = new QueryClient();
 function App() {
   return (
@@ -29,6 +31,12 @@ function App() {
           <Route path="projects" element={<Project />} />
           <Route path="projects/:id" element={<SingleProject />} />
           <Route path="freelancer" element={<FreeLancer />} />
+        </Route>
+        <Route path="/freelancer" element={<FreelancerLayout/>} >
+          <Route index element={<Navigate to="dashboard" replace/>}/>
+          <Route  path="dashboard" element={<FreelancerDashboard/>}/>
+          <Route path="proposals" element={<Proposals/>}/>
+          <Route path="projects" element={<SubmittedProjects/>}/>
         </Route>
         <Route path="/" element={<Home />} />
       </Routes>
