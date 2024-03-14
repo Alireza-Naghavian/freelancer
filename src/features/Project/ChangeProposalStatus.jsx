@@ -3,11 +3,13 @@ import RHFSelect from "../../pages/RHFSelect";
 import useChangeProposalSt from "./hooks/useChangeProposalSt";
 import LargeBtn from "../../ui/LargeBtn";
 import Loader from "../../utils/Loader";
+import { useParams } from "react-router-dom";
 
 function ChangeProposalStatus({ proposalId, setOpenModal }) {
+  const {id:projectId} = useParams();
     const {changeProposalST,changeStLoading}  = useChangeProposalSt();
     const chageStHandler =(data)=>{
-        changeProposalST({id:proposalId,data},{onSuccess:()=>{
+        changeProposalST({proposalId,projectId,...data},{onSuccess:()=>{
             setOpenModal(false)
         }})
     }
