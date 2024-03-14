@@ -22,7 +22,7 @@ function ProposalsRow({proposal,index}) {
     <Table.Row>
     <td>{index + 1}</td>
     <td className='text-wrap w-full'>{truncateText(proposal?.description, 100)}</td>
-    <td >{toPersianNumbers(proposal?.duration || "---")}</td>
+    <td >{toPersianNumbers(proposal?.duration || "---")} روز</td>
     <td>{`${(proposal.price).toLocaleString("FA-IR")} تومان`}</td>
     <td className={`${statusStyles[proposal?.status].className}`}>{statusStyles[proposal?.status].label}</td>
 
