@@ -1,3 +1,5 @@
+import { toPersianNumbers } from "../../utils/toPersianNumbers";
+
 function Stat({ icon, value, label,BgColor,textColor }) {
   return (
     <div className="col-span-1 grid grid-rows-2 grid-cols-[6.4rem_1fr] bg-secondary-100 p-4 rounded-lg gap-x-4">
@@ -7,7 +9,7 @@ function Stat({ icon, value, label,BgColor,textColor }) {
       <h5 className="font-VazirBold text-secondary-500 text-lg self-center">
         {label}
       </h5>
-      <p className="text-3xl font-VazirBold text-secondary-500">{value}</p>
+      <p className="text-3xl font-VazirBold text-secondary-500">{toPersianNumbers(value)}</p>
     </div>
   );
 }
