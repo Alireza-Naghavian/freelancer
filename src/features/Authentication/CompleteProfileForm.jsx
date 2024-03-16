@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TextField from "../../ui/TextField";
 import LargeBtn from "../../ui/LargeBtn";
 import { useMutation } from "@tanstack/react-query";
@@ -8,14 +8,20 @@ import Loader from "../../utils/Loader";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import ValidTextField from "../../ui/ValidTextField";
+import useUser from "./hooks/useUser";
 
 function CompleteProfileForm() {
   const { handleSubmit, register, watch } = useForm();
   const navigate = useNavigate();
+  const {user} = useUser();
+
   const { isPending, data, error, mutateAsync } = useMutation({
     mutationFn: completeProfile,
   });
 
+  useEffect(()=>{
+    if(user) navigate("/",{replace:true}) 
+  },[navigate,user])
   const CompleteProfileHandler = async ({ name, email, role }) => {
     try {
       const data = await mutateAsync({ name, email, role });
