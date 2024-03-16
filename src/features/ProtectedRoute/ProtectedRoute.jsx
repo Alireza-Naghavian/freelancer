@@ -5,9 +5,10 @@ import Loader from "../../utils/Loader";
 
 function ProtectedRoute({ children }) {
   const navigate = useNavigate();
-  const { isAuthenticated, isAuthorized, isLoading, user } = useAuthrize();
+  const { isAuthenticated, isAuthorized, isLoading, user,isVerified } = useAuthrize();
   useEffect(() => {
     if (!isAuthenticated && !isLoading) navigate("/auth");
+    if(!isVerified&& !isLoading) navigate("/not-access")
     if (!isAuthorized && !isLoading) navigate("/not-access");
   }, [navigate, isAuthenticated, isAuthorized]);
   if (isLoading)

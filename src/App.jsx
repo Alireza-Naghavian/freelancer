@@ -17,6 +17,9 @@ import SubmittedProjects from "./pages/SubmittedProjects";
 import FreelancerLayout from "./features/freelancer/FreelancerLayout";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import ProtectedRoute from "./features/ProtectedRoute/ProtectedRoute";
+import AdminLayout from "./features/Admin/AdminLayout";
+import AdminDashBoard from "./features/Admin/AdminDashBoard";
+import Users from "./features/Admin/Users";
 const queryClient = new QueryClient();
 function App() {
   return (
@@ -54,6 +57,20 @@ function App() {
           <Route path="dashboard" element={<FreelancerDashboard />} />
           <Route path="proposals" element={<Proposals />} />
           <Route path="projects" element={<SubmittedProjects />} />
+        </Route>
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute>
+              <AdminLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<Navigate to={"dashboard"} replace/>}/>
+          <Route path="dashboard" element={<AdminDashBoard/>}/>
+          <Route path="users" element={<Users/>}/>
+          <Route  path="projects" element={<SubmittedProjects/>}/>
+          <Route path="proposal" element={<Proposals/>}/>
         </Route>
         <Route path="/" element={<Home />} />
       </Routes>

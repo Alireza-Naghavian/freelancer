@@ -7,7 +7,8 @@ const useAuthrize = () => {
   let isAuthenticated = false;
   if (user) isAuthenticated = true;
   let isAuthorized = false;
-
+  let isVerified = false;
+  if (user&& Number(user.status === 2)) isVerified = true;
   //junior model
   //   if (pathname.includes("owner")) {
   //     if (user && user.role === "OWNER") isAuthorized = true;
@@ -29,6 +30,6 @@ const useAuthrize = () => {
   if (Object.keys(ROLES).includes(desiredRole)) {
     if (user && user.role === ROLES[desiredRole]) isAuthorized = true;
   }
-  return { isLoading, isAuthenticated, isAuthorized, user };
+  return { isLoading, isAuthenticated, isAuthorized, user, isVerified };
 };
 export default useAuthrize;
